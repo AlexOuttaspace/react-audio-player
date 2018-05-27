@@ -25,7 +25,7 @@ class App extends Component {
         source: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/wwy.mp3"
       }
     ],
-    currentlyPlaying: null,
+    currentlyPlaying: 0, //null
     pause: true
   }
 
