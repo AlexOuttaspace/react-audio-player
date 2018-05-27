@@ -24,7 +24,12 @@ const controls = props => {
       </section>
 
       <div className={classes.Progress}>
-        <ProgressBar />
+        <ProgressBar 
+          artist={props.track.artist}
+          name={props.track.name}
+          duration={props.duration}
+          position={props.position}
+        />
       </div>
       <div className={classes.Volume}>
         <VolumeBar />

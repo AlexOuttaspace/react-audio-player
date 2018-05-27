@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 
-import Player from './containers/Player/Player';
+import Sound from 'react-sound';
+
+import Controls from './components/Controls/Controls';
 import Playlist from './components/Playlist/Playlist';
 
 class App extends Component {
@@ -25,17 +27,72 @@ class App extends Component {
         source: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/wwy.mp3"
       }
     ],
-    currentlyPlaying: 0, //null
-    pause: true
+    player: {
+      currentlyPlaying: 0, // index of song that's currently in the player
+      paused: true,
+      position: 0,
+      duration: 0
+    }
+    
+  }
+
+  pauseHandler = () => {
+    this.setState((prevState) =>{
+      return {
+        player: {
+          ...prevState.player,
+          paused: !prevState.player.paused
+        }
+      };
+    });
+  }
+
+  updatePositionHandler = e => {
+    this.setState((prevState) =>{
+      return {
+        player: {
+          ...prevState.player,
+          position: e.position
+        }
+      };
+    });
+  }
+
+  loadingHandler = e => {
+    this.setState((prevState) =>{
+      return {
+        player: {
+          ...prevState.player,
+          duration: e.duration
+        }
+      };
+    });
   }
 
   render() {
-    const {tracks, currentlyPlaying} = this.state;
+    const {tracks} = this.state;
+    const {currentlyPlaying, paused, position, duration} = this.state.player;
 
     return (
       <main>
-        <Player track={tracks[currentlyPlaying]} />
-        <Playlist tracks={tracks} currentlyPlaying={currentlyPlaying}/>
+        <Sound 
+          url={tracks[currentlyPlaying].source}
+          playStatus={paused ? Sound.status.PAUSED : Sound.status.PLAYING}
+          onPlaying={this.updatePositionHandler}
+          onLoading={this.loadingHandler}
+        />
+        <Controls
+          track={tracks[currentlyPlaying]}
+          paused={paused}
+          toggle={this.pauseHandler}
+          position={position}
+          duration={duration}
+          volume={1}
+        />
+        <Playlist 
+          tracks={tracks} 
+          currentlyPlaying={currentlyPlaying}
+        />
       </main>
     );
   }

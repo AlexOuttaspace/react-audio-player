@@ -8,7 +8,7 @@ const playlist = props => {
   return (
     <ul className={classes.Playlist}>
       {props.tracks.map((t, i) => (
-          <PlaylistItem key={t.source} {...t} />
+          <PlaylistItem key={t.source + t.name} {...t} />
       ))}
     </ul>
   )
