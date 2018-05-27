@@ -1,0 +1,69 @@
+.PlayButton {
+  height: 26px;
+  width: 26px;
+  display: inline-block;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  position: relative;
+  padding: 0;
+
+  transform: translateY(1.9px);
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.PlayButton:hover .left, 
+.PlayButton:hover .right {
+  background-color: rgb(113, 182, 139);
+}
+
+.left {
+  height: 100%;
+  float: left;
+  background-color: rgb(134, 218, 166);
+  width: 36%;
+  transition: all 0.25s ease;
+  overflow: hidden;
+}
+
+.right {
+  height: 100%;
+  float: right;
+  width: 36%;
+  background-color: rgb(134, 218, 166);
+  transition: all 0.25s ease;
+}
+
+
+.triangle1, .triangle2 {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: transparent;
+  width: 0;
+  border-right: 26px solid white;
+  border-top: 13px solid transparent;
+  border-bottom: 13px solid transparent;
+  transition: transform 0.25s ease;
+}
+
+.triangle1 {
+  transform: translate(0, -100%);
+}
+.triangle2 {
+  transform: translate(0, 100%);
+}
+
+.Paused .left {
+  width: 50%;
+}
+.Paused .right {
+  width: 50%;
+}
+.Paused .triangle1 {
+  transform: translate(0, -50%);
+}
+.Paused .triangle2 {
+  transform: translate(0, 50%);
+}

@@ -1,0 +1,29 @@
+.PlaylistItem {
+  width: 100%;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  border-bottom: 1px solid #eee;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+
+  cursor: pointer;
+
+  transition: background-color .2s;
+}
+
+.PlaylistItem:hover {
+  background-color: #f2f2f2;
+}
+
+.Artist {
+  font-size: 14px;
+  color: #888;
+}
+
+.Duration {
+  font-size: 16px;
+}

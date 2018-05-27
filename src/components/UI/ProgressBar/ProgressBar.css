@@ -1,0 +1,52 @@
+
+.ProgressBar {
+  position: relative;
+  border-radius: 6px;
+  background-color: #d4d3d3;
+  height: 14px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.ProgressBar .Progress:after {
+  content: '';
+  position: absolute;
+  top: -3px;
+  right: -10px;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  background-color: rgb(100, 194, 127);
+  opacity: 0;
+  transition: opacity .1s ease-out;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2)
+}
+
+.ProgressBar:hover .Progress:after {
+  opacity: 1;
+}
+
+.Progress {
+  position: absolute;
+  border-radius: 6px;
+  background-color: #74DE92;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 200px;
+}
+
+.Info {
+  margin: 5px;
+  font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.Artist {
+  color: #555;
+}
+
+.Song {
+  font-weight: 700;
+}

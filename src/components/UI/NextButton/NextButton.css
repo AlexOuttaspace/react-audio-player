@@ -1,0 +1,42 @@
+.NextButton {
+  display: inline-block;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  position:relative;
+  padding: 0;
+  
+  border-left: 14px solid rgb(134, 218, 166);
+  border-top: 9px solid transparent;
+  border-bottom: 9px solid transparent;
+  border-right: 0;
+
+  cursor: pointer;
+  transition: all .2s ease-out;
+}
+
+.NextButton:hover{
+  border-left: 14px solid rgb(113, 182, 139);
+}
+
+.NextButton:hover:after{
+  background-color: rgb(113, 182, 139);
+}
+
+.NextButton:after{
+  content: '';
+  height: 18px;
+  width: 5px;
+  position: absolute;
+  background-color: rgb(134, 218, 166);
+  transform: translateY(-50%);
+  left: 0px;
+
+  cursor: pointer;
+  transition: all .2s ease-out;
+}
+
+.Back {
+  transform: scaleX(-1);
+}
+

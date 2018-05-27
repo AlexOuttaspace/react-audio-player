@@ -1,0 +1,25 @@
+.Controls {
+  display: flex;
+  flex-flow: nowrap row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Buttons {
+  display: inline-block;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-content: center;
+  vertical-align: middle;
+
+  flex: 0 0 80px;
+}
+
+.Progress {
+  align-self: flex-start;
+  margin-left: 18px;
+  flex: 1 1 100%; 
+}
+
