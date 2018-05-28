@@ -136,11 +136,12 @@ class App extends Component {
           onLoading={this.loadingHandler}
           position={position}
           volume={volume}
+          onFinishedPlaying={()=>this.switchTrackHandler('next')}
         />
         <Controls
           track={tracks[currentlyPlaying]}
           paused={paused}
-          toggle={this.pauseHandler}
+          togglePause={this.pauseHandler}
           position={position}
           duration={duration}
           volume={volume}
@@ -151,6 +152,8 @@ class App extends Component {
         <Playlist 
           tracks={tracks} 
           currentlyPlaying={currentlyPlaying}
+          togglePause={this.pauseHandler}
+          onSelectTrack={this.switchTrackHandler}
         />
       </main>
     );

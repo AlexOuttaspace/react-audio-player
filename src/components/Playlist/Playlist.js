@@ -8,7 +8,16 @@ const playlist = props => {
   return (
     <ul className={classes.Playlist}>
       {props.tracks.map((t, i) => (
-          <PlaylistItem key={t.source + t.name} {...t} />
+          <PlaylistItem 
+            key={t.source + t.name} 
+            {...t}
+            isCurrentTrack={i === props.currentlyPlaying}
+            clicked={
+              i === props.currentlyPlaying
+              ? props.togglePause
+              : () => props.onSelectTrack(i)
+            }
+          />
       ))}
     </ul>
   )

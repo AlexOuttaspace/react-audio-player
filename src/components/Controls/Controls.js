@@ -17,7 +17,7 @@ const controls = props => {
           <NextButton back clicked={() => props.onSwitchTrack('prev')}/>
         </div>
         <div className={classes.Play}>
-          <PlayButton clicked={props.toggle} paused={props.paused}/>
+          <PlayButton clicked={props.togglePause} paused={props.paused}/>
         </div>
         <div className={classes.Next}>
           <NextButton clicked={() => props.onSwitchTrack('next')}/>

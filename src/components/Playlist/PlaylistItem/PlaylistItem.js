@@ -8,9 +8,16 @@ import classes from './PlaylistItem.css';
 
 const playlistItem = props => {
   const duration = formatDuration(props.duration);
+  const itemClasses = [
+    classes.PlaylistItem,
+    props.isCurrentTrack ? classes.CurrentTrack : null
+  ]
 
   return (
-    <li className={classes.PlaylistItem}>
+    <li 
+      className={itemClasses.join(' ')}
+      onClick={props.clicked}
+    >
       <div className={classes.Credentials}>
         <div className={classes.Name}>{props.name}</div>
         <div className={classes.Artist}>{props.artist}</div> 
