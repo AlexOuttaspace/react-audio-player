@@ -18,14 +18,22 @@ const playlistItem = props => {
       className={itemClasses.join(' ')}
       onClick={props.clicked}
     >
-      <div className={classes.Credentials}>
-        <div className={classes.Name}>{props.name}</div>
-        <div className={classes.Artist}>{props.artist}</div> 
-      </div>
+      <div className={classes.AlbumCover}>
+        <img  src={props.artwork} alt="albom cover"/>
 
-      <div className={classes.Duration}>
-        {duration}
       </div>
+      
+      <section className={classes.Info}>
+        <div>
+          <div className={classes.Name}>{props.name}</div>
+          <div className={classes.Artist}>{props.artist}</div> 
+        </div>
+
+        <div className={classes.Duration}>
+          {duration}
+        </div>
+      </section>
+      
     </li>
   );
 }

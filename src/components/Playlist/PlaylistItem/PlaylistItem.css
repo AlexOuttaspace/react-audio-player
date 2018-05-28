@@ -1,18 +1,28 @@
 .PlaylistItem {
   width: 100%;
-  padding: 10px 20px;
-  box-sizing: border-box;
   border-bottom: 1px solid #eee;
+  cursor: pointer;
+  height: 60px;
+  transition: background-color .2s;
+}
 
+.AlbumCover {
+  height: 100%;
+  float: left;
+}
+
+.AlbumCover > img {
+  height: 100%;
+}
+
+.Info{
+  height: 100%;
+  padding: 0 15px;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-between;
   align-items: center;
-
-  cursor: pointer;
-
-  transition: background-color .2s;
 }
 
 .CurrentTrack {
