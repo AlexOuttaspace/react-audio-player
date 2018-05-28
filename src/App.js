@@ -75,7 +75,6 @@ class App extends Component {
   fetchTracks = async () => {
     const response = await axios.get('https://api.myjson.com/bins/ckjwe');
     const formatedTracks = formatTracks(response.data);
-    console.log(formatedTracks);
     return formatedTracks;
   }
 
@@ -135,12 +134,13 @@ class App extends Component {
   }
 
   updatePositionHandler = e => {
+    const {position, duration} = e;
     this.setState((prevState) =>{
       return {
         player: {
           ...prevState.player,
-          position: e.position,
-          duration: e.duration
+          position,
+          duration
         }
       };
     });
@@ -216,8 +216,7 @@ class App extends Component {
     this.setState(prevState => {
       const newPlaylist = this.state.tracks.filter((t, i) => (
           t.name.includes(prevState.searchQuery) ||
-          t.artist.includes(prevState.searchQuery) ||
-          t.album.includes(prevState.searchQuery) 
+          t.artist.includes(prevState.searchQuery)  
       ));
       return {currentPlaylist: newPlaylist};
     });

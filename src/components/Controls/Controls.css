@@ -1,7 +1,7 @@
 .Controls {
   margin: 40px auto ;
   padding: 20px;
-
+  max-width: 100%;
   display: flex;
   flex-flow: nowrap row;
   justify-content: space-between;
@@ -24,7 +24,7 @@
 .Progress {
   align-self: flex-start;
   margin-left: 18px;
-  flex: 1 1 100%; 
+  flex: 0 1 calc(100% - 180px); 
 }
 
 .Volume {
@@ -36,6 +36,10 @@
 @media screen and (max-width: 500px) {
   .Volume {
     display: none;
+  }
+
+  .Progress {
+    flex: 0 1 calc(100% - 100px);
   }
 }
 

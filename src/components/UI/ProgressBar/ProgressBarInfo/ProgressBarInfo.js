@@ -3,8 +3,8 @@ import React from 'react';
 import classes from './ProgressBarInfo.css';
 
 const progressBarInfo = props => {
-
   return (
+
       <div className={classes.Info}>
         <span>
           <span className={classes.Artist}>

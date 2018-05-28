@@ -9,7 +9,6 @@ import classes from './ProgressBar.css';
 const progressBar = props => {
   //const formatedDuration = formatDuration(props.duration/1000);
   const formatedProgress = formatDuration(props.progress/1000);
-
   const progress = props.progress/props.duration * 100;
 
   const progressBarFillStyle = {
