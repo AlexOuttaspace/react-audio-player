@@ -14,13 +14,13 @@ const controls = props => {
     <section className={classes.Controls}>
       <section className={classes.Buttons}>
         <div className={classes.Prev}>
-          <NextButton back/>
+          <NextButton back clicked={() => props.onSwitchTrack('prev')}/>
         </div>
         <div className={classes.Play}>
           <PlayButton clicked={props.toggle} paused={props.paused}/>
         </div>
         <div className={classes.Next}>
-          <NextButton />
+          <NextButton clicked={() => props.onSwitchTrack('next')}/>
         </div>
       </section>
 

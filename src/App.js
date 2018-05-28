@@ -18,13 +18,13 @@ class App extends Component {
         source: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/wwy.mp3"
       },
       {
-        name: "We Were Young 2",
-        artist: "Odesza",
+        name: "Луна",
+        artist: "Badda Boo",
         album: "Summer's Gone",
         year: 2012,
         artwork: "https://funkadelphia.files.wordpress.com/2012/09/odesza-summers-gone-lp.jpg",
-        duration: 192,
-        source: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/wwy.mp3"
+        duration: 271,
+        source: "https://cs1-49v4.vkuseraudio.net/p15/e89c9646cbee3c.mp3"
       }
     ],
     player: {
@@ -65,7 +65,8 @@ class App extends Component {
       return {
         player: {
           ...prevState.player,
-          position: e.position
+          position: e.position,
+          duration: e.duration
         }
       };
     });
@@ -73,6 +74,7 @@ class App extends Component {
   }
 
   loadingHandler = e => {
+    console.log('esa')
     this.setState((prevState) =>{
       return {
         player: {
@@ -84,13 +86,38 @@ class App extends Component {
   }
 
   volumeChangedHandler = (mousePosition, elementDimensions) => {
-    
     this.setState((prevState) =>{
       const newVolume = (mousePosition.x / elementDimensions.width) * 100
       return {
         player: {
           ...prevState.player,
           volume: newVolume
+        }
+      };
+    });
+  }
+
+  switchTrackHandler = (index) => {
+
+    this.setState(({player, tracks}) =>{
+      let newTrackIndex = index;
+      if (index === 'next') {
+        // using modulo allows to loop playlist
+        newTrackIndex = (player.currentlyPlaying + 1) % tracks.length
+      } else if (index === 'prev') {
+        // this if statement allow to loop playlist backwards
+        if(player.currentlyPlaying === 0) {
+          newTrackIndex = tracks.length - 1;
+        } else {
+          newTrackIndex = (player.currentlyPlaying - 1) % tracks.length
+        }
+      }
+
+      return {
+        player: {
+          ...player,
+          currentlyPlaying: newTrackIndex,
+          position: 0 // play new track from start
         }
       };
     });
@@ -119,6 +146,7 @@ class App extends Component {
           volume={volume}
           onSeek={this.seekHandler}
           onVolumeChanged={this.volumeChangedHandler}
+          onSwitchTrack={this.switchTrackHandler}
         />
         <Playlist 
           tracks={tracks} 

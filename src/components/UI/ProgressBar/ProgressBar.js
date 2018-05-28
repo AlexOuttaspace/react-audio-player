@@ -35,9 +35,8 @@ const progressBar = props => {
       >
         <div 
           style={progressBarFillStyle}
-          className={classes.Progress}>
-
-        </div>
+          className={classes.Progress}
+        ></div>
       </div>
     </Fragment>
   )

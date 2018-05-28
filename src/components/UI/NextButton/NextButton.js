@@ -9,7 +9,10 @@ const nextButton = props => {
   ]
 
   return (
-    <button className={buttonClasses.join(' ')}></button>
+    <button  
+      onClick={props.clicked} 
+      className={buttonClasses.join(' ')}
+    ></button>
   )
 }
  
