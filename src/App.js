@@ -108,6 +108,7 @@ class App extends Component {
   }
 
   pauseHandler = () => {
+    console.log('a')
     this.setState((prevState) =>{
       return {
         player: {

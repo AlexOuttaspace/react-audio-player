@@ -14,7 +14,7 @@ const playlist = props => {
         {...t}
         isCurrentTrack={t.id === props.id}
         clicked={
-          t.id === props.currentlyPlaying
+          t.id === props.id
           ? props.togglePause
           : () => {
             props.onSelectTrack(t.id);
