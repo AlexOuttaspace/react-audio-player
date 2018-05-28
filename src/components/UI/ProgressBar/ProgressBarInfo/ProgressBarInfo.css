@@ -1,0 +1,14 @@
+.Info {
+  margin: 5px;
+  font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.Artist {
+  color: #555;
+}
+
+.Song {
+  font-weight: 700;
+}

@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactCursorPosition from 'react-cursor-position';
 
 import PlayButton from '../UI/PlayButton/PlayButton';
 import NextButton from '../UI/NextButton/NextButton';
@@ -23,17 +24,22 @@ const controls = props => {
         </div>
       </section>
 
-      <div className={classes.Progress}>
+      <ReactCursorPosition className={classes.Progress}>
         <ProgressBar 
           artist={props.track.artist}
           name={props.track.name}
           duration={props.duration}
-          position={props.position}
+          progress={props.position}
+          clicked={props.onSeek}
         />
-      </div>
-      <div className={classes.Volume}>
-        <VolumeBar />
-      </div>
+      </ReactCursorPosition>
+
+      <ReactCursorPosition className={classes.Volume}>
+        <VolumeBar 
+          volume={props.volume}
+          clicked={props.onVolumeChanged}
+        />
+      </ReactCursorPosition>
     </section>
   );
 }

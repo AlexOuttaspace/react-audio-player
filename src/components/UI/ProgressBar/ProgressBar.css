@@ -1,4 +1,3 @@
-
 .ProgressBar {
   position: relative;
   border-radius: 6px;
@@ -33,20 +32,5 @@
   top: 0;
   left: 0;
   height: 100%;
-  width: 0;
-}
-
-.Info {
-  margin: 5px;
-  font-size: 16px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.Artist {
-  color: #555;
-}
-
-.Song {
-  font-weight: 700;
+  min-width: 6px;
 }

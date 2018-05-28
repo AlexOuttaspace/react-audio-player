@@ -31,9 +31,22 @@ class App extends Component {
       currentlyPlaying: 0, // index of song that's currently in the player
       paused: true,
       position: 0,
-      duration: 0
+      duration: 0,
+      volume: 100
     }
+  }
+
+  seekHandler = (mousePosition, elementDimensions) => {
     
+    this.setState((prevState) =>{
+      const newPosition = (mousePosition.x / elementDimensions.width) * prevState.player.duration;
+      return {
+        player: {
+          ...prevState.player,
+          position: newPosition
+        }
+      };
+    });
   }
 
   pauseHandler = () => {
@@ -56,6 +69,7 @@ class App extends Component {
         }
       };
     });
+    return 0;
   }
 
   loadingHandler = e => {
@@ -69,9 +83,22 @@ class App extends Component {
     });
   }
 
+  volumeChangedHandler = (mousePosition, elementDimensions) => {
+    
+    this.setState((prevState) =>{
+      const newVolume = (mousePosition.x / elementDimensions.width) * 100
+      return {
+        player: {
+          ...prevState.player,
+          volume: newVolume
+        }
+      };
+    });
+  }
+
   render() {
     const {tracks} = this.state;
-    const {currentlyPlaying, paused, position, duration} = this.state.player;
+    const {currentlyPlaying, paused, position, duration, volume} = this.state.player;
 
     return (
       <main>
@@ -80,6 +107,8 @@ class App extends Component {
           playStatus={paused ? Sound.status.PAUSED : Sound.status.PLAYING}
           onPlaying={this.updatePositionHandler}
           onLoading={this.loadingHandler}
+          position={position}
+          volume={volume}
         />
         <Controls
           track={tracks[currentlyPlaying]}
@@ -87,7 +116,9 @@ class App extends Component {
           toggle={this.pauseHandler}
           position={position}
           duration={duration}
-          volume={1}
+          volume={volume}
+          onSeek={this.seekHandler}
+          onVolumeChanged={this.volumeChangedHandler}
         />
         <Playlist 
           tracks={tracks} 

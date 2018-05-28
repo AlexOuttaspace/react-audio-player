@@ -1,40 +1,38 @@
 import React, {Fragment} from 'react';
 
+import ProgressBarInfo from './ProgressBarInfo/ProgressBarInfo';
+
 import {formatDuration} from '../../../utility/utility'
 
 import classes from './ProgressBar.css';
 
 const progressBar = props => {
-
   //const formatedDuration = formatDuration(props.duration/1000);
-  const formatedPosition = formatDuration(props.position/1000);
+  const formatedProgress = formatDuration(props.progress/1000);
 
-  const progress = props.position/props.duration * 100;
+  const progress = props.progress/props.duration * 100;
 
   const progressBarFillStyle = {
     width: progress + '%'
   }
+  
   return (
-    
     <Fragment>
-      <div className={classes.Info}>
+      <ProgressBarInfo 
+        artist={props.artist}
+        name={props.name}
+        formatedProgress={formatedProgress}
+      />
 
-        <span>
-          <span className={classes.Artist}>
-            {props.artist}
-          </span> 
-          &nbsp;&#8212;&nbsp;
-          <span  className={classes.Song}>
-            {props.name}
-          </span>
-        </span>
-
-        <span>
-          {formatedPosition}
-        </span>
-
-      </div>
-      <div className={classes.ProgressBar}>
+      <div 
+        className={classes.ProgressBar}
+        onClick={e => 
+          props.clicked(
+            props.position,
+            props.elementDimensions
+          )
+        }
+      >
         <div 
           style={progressBarFillStyle}
           className={classes.Progress}>
