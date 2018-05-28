@@ -9,7 +9,34 @@ import MaterialCard from './components/UI/MaterialCard/MaterialCard';
 import ErrorMessage from './components/ErrorMessage/ErrorMessage';
 import Spinner from './components/UI/Spinner/Spinner';
 import {formatTracks} from './utility/utility';
- 
+
+const fallBackTracks =  [
+  {
+    id: 1,
+    name: "We Were Young",
+    artist: "Odesza",
+    artwork: "https://funkadelphia.files.wordpress.com/2012/09/odesza-summers-gone-lp.jpg",
+    duration: 192,
+    source: "https://freemusicarchive.org/music/download/e4507f4adfbb573336fbd498d7d0d3e4b15bd01b"
+  },
+  {
+    id: 2,
+    name: "We Were  Very Young",
+    artist: "Rodesza",
+    artwork: "https://funkadelphia.files.wordpress.com/2012/09/odesza-summers-gone-lp.jpg",
+    duration: 192,
+    source: "https://freemusicarchive.org/music/download/e4507f4adfbb573336fbd498d7d0d3e4b15bd01b"
+  },
+  {
+    id: 3,
+    name: "We Were Not So Young",
+    artist: "Norodezsa",
+    artwork: "https://funkadelphia.files.wordpress.com/2012/09/odesza-summers-gone-lp.jpg",
+    duration: 192,
+    source: "https://freemusicarchive.org/music/download/e4507f4adfbb573336fbd498d7d0d3e4b15bd01b"
+  }
+]
+
 class App extends Component {
   state = {
     tracks: [],
@@ -46,9 +73,20 @@ class App extends Component {
   }
  
   fetchTracks = async () => {
-    const response = await axios.get('https://api.myjson.com/bins/7kif2');
-    const formatedTracks = formatTracks(response.data);
-    return formatedTracks;
+    try {
+      const response = await axios.get('https://api.myjson.com/bins/7kif2');
+      const formatedTracks = formatTracks(response.data);
+      return formatedTracks;   
+    } catch (err) {
+      this.setState(prevState => ({
+        player: {
+          ...prevState.player,
+          error: err.message + '. Using fallback tracks.',
+          showErrorMessage: true
+        }
+      }));
+      return fallBackTracks
+    }
   }
 
   // ERRORS

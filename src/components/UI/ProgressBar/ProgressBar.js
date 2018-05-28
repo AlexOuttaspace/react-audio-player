@@ -26,7 +26,6 @@ const progressBar = props => {
         name={props.name}
         formatedProgress={formatedProgress}
       />
-
       <div 
         className={classes.ProgressBar}
         onClick={e => 

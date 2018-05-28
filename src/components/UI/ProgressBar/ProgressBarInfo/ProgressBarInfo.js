@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 
 import classes from './ProgressBarInfo.css';
 
 const progressBarInfo = props => {
-  return (
+  let info = null;
 
+  if (props.artist) {
+    info = (
       <div className={classes.Info}>
         <span>
           <span className={classes.Artist}>
@@ -21,7 +23,18 @@ const progressBarInfo = props => {
         </span>
 
       </div>
+    )
+  } else {
+    info =  <div>&nbsp;</div>
+  }
+
+
+  return (
+    <Fragment>
+      {info}
+    </Fragment>
   )
+    
 }
  
 export default progressBarInfo;

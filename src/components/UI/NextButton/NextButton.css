@@ -1,42 +1,71 @@
 .NextButton {
+  height: 20px;
+  width: 20px;
   display: inline-block;
   outline: none;
   border: none;
   background-color: transparent;
-  position:relative;
+  position: relative;
+  
   padding: 0;
-    
-  border-left: 24px solid rgb(134, 218, 166);
-  border-top: 14px solid transparent;
-  border-bottom: 14px solid transparent;
-  border-right: 0;
 
+  overflow: hidden;
   cursor: pointer;
   transition: all .2s ease-out;
 }
 
-.NextButton:hover{
-  border-left-color: rgb(113, 182, 139);
-}
-
-.NextButton:hover:after{
+.NextButton:hover .left, 
+.NextButton:hover .right,
+.NextButton:hover:after {
   background-color: rgb(113, 182, 139);
 }
 
-.NextButton:after{
+
+
+.left {
+  height: 100%;
+  float: left;
+  background-color: rgb(134, 218, 166);
+  width: 50%;
+  overflow: hidden;
+}
+
+.right {
+  height: 100%;
+  float: right;
+  width: 50%;
+  background-color: rgb(134, 218, 166);
+}
+
+
+.triangle1, .triangle2 {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: transparent;
+  width: 0;
+  border-right: 20px solid white;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+}
+
+.triangle1 {
+  transform: translate(0, -50%);
+}
+.triangle2 {
+  transform: translate(0, 50%);
+}
+
+.NextButton:after {
   content: '';
-  height: 26px;
-  width: 8px;
+  width: 4px;
+  height: 20px;
   position: absolute;
   background-color: rgb(134, 218, 166);
-  transform: translateY(-50%);
-  left: 0px;
-
-  cursor: pointer;
+  right: 0;
   transition: all .2s ease-out;
 }
 
 .Back {
   transform: scaleX(-1);
 }
-

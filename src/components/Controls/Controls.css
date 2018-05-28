@@ -9,13 +9,13 @@
 }
 
 .Buttons {
-  font-family: sans-serif;
+  align-items: center;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-
   flex: 0 0 120px;
 }
+
 
 .Progress {
   align-self: flex-start;
