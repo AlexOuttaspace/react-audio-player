@@ -8,8 +8,6 @@ import SearchBar from './components/SeachBar/SearchBar';
 import MaterialCard from './components/UI/MaterialCard/MaterialCard';
 import ErrorMessage from './components/ErrorMessage/ErrorMessage';
 import {formatTracks} from './utility/utility';
-
-import defaultCover from './assets/images/defaultCover.png';
  
 const initialTracks =  [
   {
@@ -51,7 +49,8 @@ class App extends Component {
       duration: 0,
       volume: 80,
       error: '',
-      showErrorMessage: false
+      showErrorMessage: false,
+      loaded: 0
     },
     searchQuery: '',
   }
@@ -71,9 +70,10 @@ class App extends Component {
       this.setCurrentPlaylist();
     }
   }
-
+  //https://api.myjson.com/bins/ckjwe
+  //https://api.myjson.com/bins/1euidq .aTracks.slice(140, 160)
   fetchTracks = async () => {
-    const response = await axios.get('https://api.myjson.com/bins/ckjwe');
+    const response = await axios.get('https://api.myjson.com/bins/7kif2');
     const formatedTracks = formatTracks(response.data);
     return formatedTracks;
   }
@@ -122,6 +122,17 @@ class App extends Component {
     });
   }
 
+  playHandler = () => {
+    this.setState((prevState) =>{
+      return {
+        player: {
+          ...prevState.player,
+          paused: false
+        }
+      };
+    });
+  }
+
   pauseHandler = () => {
     this.setState((prevState) =>{
       return {
@@ -148,11 +159,14 @@ class App extends Component {
   }
 
   loadingHandler = e => {
+    const {duration, bytesLoaded, bytesTotal} = e;
+    
     this.setState((prevState) =>{
       return {
         player: {
           ...prevState.player,
-          duration: e.duration
+          duration,
+          loaded: bytesLoaded / bytesTotal
         }
       };
     });
@@ -182,7 +196,7 @@ class App extends Component {
 
         let newTrackIndex;
         if (id === 'next') {
-          if (currentTrackIndex >= currentPlaylist.length) {
+          if (currentTrackIndex >= currentPlaylist.length - 1) {
             newTrackIndex = 0;
           } else {
             newTrackIndex = (currentTrackIndex + 1);
@@ -215,8 +229,8 @@ class App extends Component {
   setCurrentPlaylist = () => {
     this.setState(prevState => {
       const newPlaylist = this.state.tracks.filter((t, i) => (
-          t.name.includes(prevState.searchQuery) ||
-          t.artist.includes(prevState.searchQuery)  
+          t.name.toLowerCase().includes(prevState.searchQuery.toLowerCase()) ||
+          t.artist.toLowerCase().includes(prevState.searchQuery.toLowerCase())  
       ));
       return {currentPlaylist: newPlaylist};
     });
@@ -231,7 +245,8 @@ class App extends Component {
       duration,
       volume,
       error,
-      showErrorMessage
+      showErrorMessage,
+      loaded
     } = this.state.player;
 
     const track = tracks.find(t => t.id === currentlyPlaying);
@@ -241,7 +256,6 @@ class App extends Component {
     if (track) {
       sound = (
         <Sound
-          autoLoad
           onError={this.errorHandler}
           url={track.source}
           playStatus={paused ? Sound.status.PAUSED : Sound.status.PLAYING}
@@ -253,7 +267,6 @@ class App extends Component {
         />
       )
     }
-
 
     return (
       <main>
@@ -269,6 +282,7 @@ class App extends Component {
             {...track}
             paused={paused}
             togglePause={this.pauseHandler}
+            loaded={loaded}
             position={position}
             trackDuration={duration}
             volume={volume}
@@ -286,6 +300,7 @@ class App extends Component {
           <Playlist 
             tracks={currentPlaylist} 
             {...track}
+            onPlay={this.playHandler}
             togglePause={this.pauseHandler}
             onSelectTrack={this.switchTrackHandler}
           />

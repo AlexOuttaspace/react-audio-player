@@ -1,7 +1,6 @@
 
 .ProgressBar {
   position: relative;
-  border-radius: 6px;
   background-color: #d4d3d3;
   height: 14px;
   width: 100%;
@@ -28,7 +27,6 @@
 
 .Progress {
   position: absolute;
-  border-radius: 6px;
   background-color: #74DE92;
   top: 0;
   left: 0;

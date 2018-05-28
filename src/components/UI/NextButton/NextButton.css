@@ -5,10 +5,10 @@
   background-color: transparent;
   position:relative;
   padding: 0;
-  
-  border-left: 14px solid rgb(134, 218, 166);
-  border-top: 9px solid transparent;
-  border-bottom: 9px solid transparent;
+    
+  border-left: 24px solid rgb(134, 218, 166);
+  border-top: 14px solid transparent;
+  border-bottom: 14px solid transparent;
   border-right: 0;
 
   cursor: pointer;
@@ -16,7 +16,7 @@
 }
 
 .NextButton:hover{
-  border-left: 14px solid rgb(113, 182, 139);
+  border-left-color: rgb(113, 182, 139);
 }
 
 .NextButton:hover:after{
@@ -25,8 +25,8 @@
 
 .NextButton:after{
   content: '';
-  height: 18px;
-  width: 5px;
+  height: 26px;
+  width: 8px;
   position: absolute;
   background-color: rgb(134, 218, 166);
   transform: translateY(-50%);

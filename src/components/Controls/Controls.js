@@ -26,6 +26,7 @@ const controls = props => {
 
       <ReactCursorPosition className={classes.Progress}>
         <ProgressBar 
+          loaded={props.loaded}
           artist={props.artist}
           name={props.name}
           duration={props.trackDuration}

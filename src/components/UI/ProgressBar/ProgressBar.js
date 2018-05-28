@@ -13,7 +13,11 @@ const progressBar = props => {
 
   const progressBarFillStyle = {
     width: progress + '%'
-  }
+  };
+
+  const loadedBarFillStyle = {
+    width: props.loaded * 100 + '%'
+  };
   
   return (
     <Fragment>
@@ -35,6 +39,10 @@ const progressBar = props => {
         <div 
           style={progressBarFillStyle}
           className={classes.Progress}
+        ></div>
+        <div 
+          style={loadedBarFillStyle}
+          className={classes.Loaded}
         ></div>
       </div>
     </Fragment>
