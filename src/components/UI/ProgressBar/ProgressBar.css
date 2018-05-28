@@ -1,7 +1,7 @@
 .ProgressBar {
   z-index: 10;
   position: relative;
-  background-color: #d4d3d3;
+  background-color: #e4e2e2;
   height: 14px;
   width: 100%;
   cursor: pointer;
@@ -38,7 +38,7 @@
 .Loaded {
   z-index: 20;
   position: absolute;
-  background-color: #adadad;
+  background-color: #d6d5d5;
   top: 0;
   left: 0;
   height: 100%;

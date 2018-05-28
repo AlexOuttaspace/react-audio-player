@@ -7,37 +7,9 @@ import Playlist from './components/Playlist/Playlist';
 import SearchBar from './components/SeachBar/SearchBar';
 import MaterialCard from './components/UI/MaterialCard/MaterialCard';
 import ErrorMessage from './components/ErrorMessage/ErrorMessage';
+import Spinner from './components/UI/Spinner/Spinner';
 import {formatTracks} from './utility/utility';
  
-const initialTracks =  [
-  {
-    id: 1,
-    name: "We Were Young",
-    artist: "Odesza",
-    artwork: "https://funkadelphia.files.wordpress.com/2012/09/odesza-summers-gone-lp.jpg",
-    duration: 192,
-    source: "https://freemusicarchive.org/music/download/e4507f4adfbb573336fbd498d7d0d3e4b15bd01b"
-  },
-  {
-    id: 2,
-    name: "Луна",
-    artist: "Badda Boo",
-    album: "Summer's Gone",
-    artwork: "https://funkadelphia.files.wordpress.com/2012/09/odesza-summers-gone-lp.jpg",
-    duration: 20,
-    source: "https://cs1-49v4.vkuseraudio.net/p15/e89c9646cbee3c.mp3"
-  },
-  {
-    id: 3,
-    name: "Луна",
-    artist: "Badda Boo",
-    year: 2012,
-    artwork: "https://funkadelphia.files.wordpress.com/2012/09/odesza-summers-gone-lp.jpg",
-    duration: 271,
-    source: "https://cs1-49v4.vkuseraudio.net/p15/e89c9646cbee3c.mp3"
-  }
-]
-
 class App extends Component {
   state = {
     tracks: [],
@@ -53,11 +25,13 @@ class App extends Component {
       loaded: 0
     },
     searchQuery: '',
+    loading: true
   }
 
   componentDidMount = async () => {
     const tracks = await this.fetchTracks();
     this.setState({
+      loading: false,
       tracks: tracks, 
       currentPlaylist: tracks,
       currentlyPlaying: tracks[0].id
@@ -238,7 +212,13 @@ class App extends Component {
 
   
   render() {
-    const {tracks, currentlyPlaying, currentPlaylist, searchQuery} = this.state;
+    const {
+      tracks, 
+      currentlyPlaying, 
+      currentPlaylist, 
+      searchQuery,
+      loading
+    } = this.state;
     const {
       paused,
       position,
@@ -252,6 +232,8 @@ class App extends Component {
     const track = tracks.find(t => t.id === currentlyPlaying);
 
     let sound = null;
+
+    let playList = null;
 
     if (track) {
       sound = (
@@ -267,7 +249,23 @@ class App extends Component {
         />
       )
     }
-
+    
+    if(!loading) {
+      playList = (
+      <Playlist 
+        tracks={currentPlaylist} 
+        {...track}
+        onPlay={this.playHandler}
+        togglePause={this.pauseHandler}
+        onSelectTrack={this.switchTrackHandler}
+      />
+      )
+    } else {
+      playList = (
+        <Spinner />
+      )
+    }
+    
     return (
       <main>
         <ErrorMessage 
@@ -297,13 +295,7 @@ class App extends Component {
             onInput={this.searchInputHandler}
             query={searchQuery}
           /> 
-          <Playlist 
-            tracks={currentPlaylist} 
-            {...track}
-            onPlay={this.playHandler}
-            togglePause={this.pauseHandler}
-            onSelectTrack={this.switchTrackHandler}
-          />
+          {playList}
         </MaterialCard>
         
       </main>
