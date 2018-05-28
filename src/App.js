@@ -4,6 +4,9 @@ import Sound from 'react-sound';
 
 import Controls from './components/Controls/Controls';
 import Playlist from './components/Playlist/Playlist';
+import SearchBar from './components/SeachBar/SearchBar';
+import MaterialCard from './components/UI/MaterialCard/MaterialCard';
+import ErrorMessage from './components/ErrorMessage/ErrorMessage';
 
 class App extends Component {
   state = {
@@ -24,7 +27,7 @@ class App extends Component {
         year: 2012,
         artwork: "https://funkadelphia.files.wordpress.com/2012/09/odesza-summers-gone-lp.jpg",
         duration: 271,
-        source: "https://cs1-49v4.vkuseraudio.net/p15/e89c9646cbee3c.mp3"
+        source: "https://cs1-49v4.vkuseraudio.net/p15/e89c9646cbee3c.smp3"
       }
     ],
     player: {
@@ -32,12 +35,43 @@ class App extends Component {
       paused: true,
       position: 0,
       duration: 0,
-      volume: 100
+      volume: 80,
+      error: '',
+      showErrorMessage: false
     }
   }
 
+  errorHandler = (code) => {
+    let error;
+    if (code === 4) {
+      error = 'Sorry. Track is missing';
+    } else {
+      error = 'Sorry. Something bad has happenned.';
+    }
+
+    this.setState((prevState) =>{
+      return {
+        player: {
+          ...prevState.player,
+          error,
+          showErrorMessage: true
+        }
+      };
+    });
+  }
+
+  errorDismissHandler = () => {
+    this.setState((prevState) =>{
+      return {
+        player: {
+          ...prevState.player,
+          showErrorMessage: false
+        }
+      };
+    });
+  }
+
   seekHandler = (mousePosition, elementDimensions) => {
-    
     this.setState((prevState) =>{
       const newPosition = (mousePosition.x / elementDimensions.width) * prevState.player.duration;
       return {
@@ -98,7 +132,6 @@ class App extends Component {
   }
 
   switchTrackHandler = (index) => {
-
     this.setState(({player, tracks}) =>{
       let newTrackIndex = index;
       if (index === 'next') {
@@ -125,11 +158,27 @@ class App extends Component {
 
   render() {
     const {tracks} = this.state;
-    const {currentlyPlaying, paused, position, duration, volume} = this.state.player;
+    const {
+      currentlyPlaying,
+      paused,
+      position,
+      duration,
+      volume,
+      error,
+      showErrorMessage
+    } = this.state.player;
 
     return (
       <main>
-        <Sound 
+        <ErrorMessage 
+          onErrorDismiss={this.errorDismissHandler}
+          show={showErrorMessage}
+        >
+          {error}
+        </ErrorMessage>
+        <Sound
+          autoLoad
+          onError={this.errorHandler}
           url={tracks[currentlyPlaying].source}
           playStatus={paused ? Sound.status.PAUSED : Sound.status.PLAYING}
           onPlaying={this.updatePositionHandler}
@@ -138,23 +187,28 @@ class App extends Component {
           volume={volume}
           onFinishedPlaying={()=>this.switchTrackHandler('next')}
         />
-        <Controls
-          track={tracks[currentlyPlaying]}
-          paused={paused}
-          togglePause={this.pauseHandler}
-          position={position}
-          duration={duration}
-          volume={volume}
-          onSeek={this.seekHandler}
-          onVolumeChanged={this.volumeChangedHandler}
-          onSwitchTrack={this.switchTrackHandler}
-        />
-        <Playlist 
-          tracks={tracks} 
-          currentlyPlaying={currentlyPlaying}
-          togglePause={this.pauseHandler}
-          onSelectTrack={this.switchTrackHandler}
-        />
+        <MaterialCard>
+          <Controls
+            track={tracks[currentlyPlaying]}
+            paused={paused}
+            togglePause={this.pauseHandler}
+            position={position}
+            duration={duration}
+            volume={volume}
+            onSeek={this.seekHandler}
+            onVolumeChanged={this.volumeChangedHandler}
+            onSwitchTrack={this.switchTrackHandler}
+          />
+        </MaterialCard>
+        <MaterialCard>
+          <SearchBar /> 
+          <Playlist 
+            tracks={tracks} 
+            currentlyPlaying={currentlyPlaying}
+            togglePause={this.pauseHandler}
+            onSelectTrack={this.switchTrackHandler}
+          />
+        </MaterialCard>
       </main>
     );
   }

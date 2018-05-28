@@ -1,0 +1,39 @@
+.SearchBar {
+  width: 100%;
+  max-width: 700px;
+  margin: auto;
+  padding: 0;
+
+  display: flex;
+  justify-content: space-between;
+
+}
+
+.SearchBar input {
+  flex: 0 1 100%;
+  display: block;
+  box-sizing: border-box;
+  padding: 8px 15px;
+  border: none;
+  outline: none;
+}
+
+.SearchBar button {
+  /* cancel default styling */
+  outline: none;
+  border: none;
+  font: inherit;
+  background: transparent;
+
+  padding: 5px 15px;
+  border: 1px solid blue;
+  cursor: pointer;
+}
+
+
+.SearchBar input::-webkit-input-placeholder,
+.SearchBar input::-moz-placeholder,
+.SearchBar input:-ms-input-placeholder,
+.SearchBar input:-moz-placeholder {
+  color: #ccc;
+}
