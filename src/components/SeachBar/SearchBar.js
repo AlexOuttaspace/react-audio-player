@@ -7,7 +7,8 @@ const searchBar = props => {
     <form
       onSubmit={e => e.preventDefault()}
       className={classes.SearchBar}>
-      <input 
+      <input
+        autoComplete='off'
         type="text"
         name='search'
         onChange={props.onInput}

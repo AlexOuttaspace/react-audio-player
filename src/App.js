@@ -205,10 +205,12 @@ class App extends Component {
   }
 
   setCurrentPlaylist = () => {
-    this.setState(() => {
-      const newPlaylist = this.state.tracks.filter((t, i) => {
-        return (t.id < 3);
-      });
+    this.setState(prevState => {
+      const newPlaylist = this.state.tracks.filter((t, i) => (
+          t.name.includes(prevState.searchQuery) ||
+          t.artist.includes(prevState.searchQuery) ||
+          t.album.includes(prevState.searchQuery) 
+      ));
 
       return {currentPlaylist: newPlaylist};
     });
@@ -227,6 +229,25 @@ class App extends Component {
 
     const track = tracks.find(t => t.id === currentlyPlaying);
 
+    let sound = null;
+
+    if (track) {
+      sound = (
+        <Sound
+          autoLoad
+          onError={this.errorHandler}
+          url={track.source}
+          playStatus={paused ? Sound.status.PAUSED : Sound.status.PLAYING}
+          onPlaying={this.updatePositionHandler}
+          onLoading={this.loadingHandler}
+          position={position}
+          volume={volume}
+          onFinishedPlaying={()=>this.switchTrackHandler('next')}
+        />
+      )
+    }
+
+
     return (
       <main>
         <ErrorMessage 
@@ -235,19 +256,7 @@ class App extends Component {
         >
           {error}
         </ErrorMessage>
-        {track &&
-          <Sound
-            autoLoad
-            onError={this.errorHandler}
-            url={track.source}
-            playStatus={paused ? Sound.status.PAUSED : Sound.status.PLAYING}
-            onPlaying={this.updatePositionHandler}
-            onLoading={this.loadingHandler}
-            position={position}
-            volume={volume}
-            onFinishedPlaying={()=>this.switchTrackHandler('next')}
-          />
-        }
+        {sound}
         <MaterialCard>
           <Controls
             {...track}
@@ -261,20 +270,20 @@ class App extends Component {
             onSwitchTrack={this.switchTrackHandler}
           />
         </MaterialCard>
-        {!!currentPlaylist.length &&
-          <MaterialCard>
-            <SearchBar
-              onInput={this.searchInputHandler}
-              query={searchQuery}
-            /> 
-            <Playlist 
-              tracks={currentPlaylist} 
-              currentlyPlaying={track.id}
-              togglePause={this.pauseHandler}
-              onSelectTrack={this.switchTrackHandler}
-            />
-          </MaterialCard>
-        }
+        
+        <MaterialCard>
+          <SearchBar
+            onInput={this.searchInputHandler}
+            query={searchQuery}
+          /> 
+          <Playlist 
+            tracks={currentPlaylist} 
+            {...track}
+            togglePause={this.pauseHandler}
+            onSelectTrack={this.switchTrackHandler}
+          />
+        </MaterialCard>
+        
       </main>
     );
   }
