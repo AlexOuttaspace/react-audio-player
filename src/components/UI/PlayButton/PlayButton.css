@@ -1,6 +1,6 @@
 .PlayButton {
-  height: 26px;
-  width: 26px;
+  height: 28px;
+  width: 28px;
   display: inline-block;
   outline: none;
   border: none;
@@ -8,7 +8,6 @@
   position: relative;
   padding: 0;
 
-  transform: translateY(1.9px);
   overflow: hidden;
   cursor: pointer;
 }
@@ -42,9 +41,9 @@
   right: 0;
   background-color: transparent;
   width: 0;
-  border-right: 26px solid white;
-  border-top: 13px solid transparent;
-  border-bottom: 13px solid transparent;
+  border-right: 28px solid white;
+  border-top: 14px solid transparent;
+  border-bottom: 14px solid transparent;
   transition: transform 0.25s ease;
 }
 

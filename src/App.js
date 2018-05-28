@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import axios from 'axios';
 import Sound from 'react-sound';
 
 import Controls from './components/Controls/Controls';
@@ -7,33 +7,32 @@ import Playlist from './components/Playlist/Playlist';
 import SearchBar from './components/SeachBar/SearchBar';
 import MaterialCard from './components/UI/MaterialCard/MaterialCard';
 import ErrorMessage from './components/ErrorMessage/ErrorMessage';
+import {formatTracks} from './utility/utility';
 
+import defaultCover from './assets/images/defaultCover.png';
+ 
 const initialTracks =  [
   {
     id: 1,
     name: "We Were Young",
     artist: "Odesza",
-    album: "Summer's Gone",
-    year: 2012,
     artwork: "https://funkadelphia.files.wordpress.com/2012/09/odesza-summers-gone-lp.jpg",
     duration: 192,
-    source: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/wwy.mp3"
+    source: "https://freemusicarchive.org/music/download/e4507f4adfbb573336fbd498d7d0d3e4b15bd01b"
   },
   {
     id: 2,
     name: "Луна",
     artist: "Badda Boo",
     album: "Summer's Gone",
-    year: 2012,
     artwork: "https://funkadelphia.files.wordpress.com/2012/09/odesza-summers-gone-lp.jpg",
-    duration: 271,
+    duration: 20,
     source: "https://cs1-49v4.vkuseraudio.net/p15/e89c9646cbee3c.mp3"
   },
   {
     id: 3,
     name: "Луна",
     artist: "Badda Boo",
-    album: "Summer's Gone",
     year: 2012,
     artwork: "https://funkadelphia.files.wordpress.com/2012/09/odesza-summers-gone-lp.jpg",
     duration: 271,
@@ -57,18 +56,27 @@ class App extends Component {
     searchQuery: '',
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
+    const tracks = await this.fetchTracks();
     this.setState({
-      tracks: initialTracks, 
-      currentPlaylist: initialTracks,
-      currentlyPlaying: initialTracks[0].id
+      tracks: tracks, 
+      currentPlaylist: tracks,
+      currentlyPlaying: tracks[0].id
     });
   }
 
   componentDidUpdate = (prevProps, prevState) => {
-    if (prevState.searchQuery !== this.state.searchQuery) {
+    if (prevState.searchQuery !== this.state.searchQuery &&
+        (this.state.searchQuery.length >= 3 || this.state.searchQuery === '')) {
       this.setCurrentPlaylist();
     }
+  }
+
+  fetchTracks = async () => {
+    const response = await axios.get('https://api.myjson.com/bins/ckjwe');
+    const formatedTracks = formatTracks(response.data);
+    console.log(formatedTracks);
+    return formatedTracks;
   }
 
   // ERRORS
@@ -211,11 +219,11 @@ class App extends Component {
           t.artist.includes(prevState.searchQuery) ||
           t.album.includes(prevState.searchQuery) 
       ));
-
       return {currentPlaylist: newPlaylist};
     });
   }
 
+  
   render() {
     const {tracks, currentlyPlaying, currentPlaylist, searchQuery} = this.state;
     const {
@@ -238,9 +246,9 @@ class App extends Component {
           onError={this.errorHandler}
           url={track.source}
           playStatus={paused ? Sound.status.PAUSED : Sound.status.PLAYING}
+          position={position}
           onPlaying={this.updatePositionHandler}
           onLoading={this.loadingHandler}
-          position={position}
           volume={volume}
           onFinishedPlaying={()=>this.switchTrackHandler('next')}
         />

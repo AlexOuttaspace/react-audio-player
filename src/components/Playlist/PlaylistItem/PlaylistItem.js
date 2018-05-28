@@ -20,7 +20,6 @@ const playlistItem = props => {
     >
       <div className={classes.AlbumCover}>
         <img  src={props.artwork} alt="albom cover"/>
-
       </div>
       
       <section className={classes.Info}>
