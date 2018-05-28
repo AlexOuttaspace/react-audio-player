@@ -8,39 +8,70 @@ import SearchBar from './components/SeachBar/SearchBar';
 import MaterialCard from './components/UI/MaterialCard/MaterialCard';
 import ErrorMessage from './components/ErrorMessage/ErrorMessage';
 
+const initialTracks =  [
+  {
+    id: 1,
+    name: "We Were Young",
+    artist: "Odesza",
+    album: "Summer's Gone",
+    year: 2012,
+    artwork: "https://funkadelphia.files.wordpress.com/2012/09/odesza-summers-gone-lp.jpg",
+    duration: 192,
+    source: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/wwy.mp3"
+  },
+  {
+    id: 2,
+    name: "Луна",
+    artist: "Badda Boo",
+    album: "Summer's Gone",
+    year: 2012,
+    artwork: "https://funkadelphia.files.wordpress.com/2012/09/odesza-summers-gone-lp.jpg",
+    duration: 271,
+    source: "https://cs1-49v4.vkuseraudio.net/p15/e89c9646cbee3c.mp3"
+  },
+  {
+    id: 3,
+    name: "Луна",
+    artist: "Badda Boo",
+    album: "Summer's Gone",
+    year: 2012,
+    artwork: "https://funkadelphia.files.wordpress.com/2012/09/odesza-summers-gone-lp.jpg",
+    duration: 271,
+    source: "https://cs1-49v4.vkuseraudio.net/p15/e89c9646cbee3c.mp3"
+  }
+]
+
 class App extends Component {
   state = {
-    tracks: [
-      {
-        name: "We Were Young",
-        artist: "Odesza",
-        album: "Summer's Gone",
-        year: 2012,
-        artwork: "https://funkadelphia.files.wordpress.com/2012/09/odesza-summers-gone-lp.jpg",
-        duration: 192,
-        source: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/wwy.mp3"
-      },
-      {
-        name: "Луна",
-        artist: "Badda Boo",
-        album: "Summer's Gone",
-        year: 2012,
-        artwork: "https://funkadelphia.files.wordpress.com/2012/09/odesza-summers-gone-lp.jpg",
-        duration: 271,
-        source: "https://cs1-49v4.vkuseraudio.net/p15/e89c9646cbee3c.smp3"
-      }
-    ],
+    tracks: [],
+    currentPlaylist: [],
+    currentlyPlaying: null, // id of the song that's currently in the player
     player: {
-      currentlyPlaying: 0, // index of song that's currently in the player
       paused: true,
       position: 0,
       duration: 0,
       volume: 80,
       error: '',
       showErrorMessage: false
+    },
+    searchQuery: '',
+  }
+
+  componentDidMount = () => {
+    this.setState({
+      tracks: initialTracks, 
+      currentPlaylist: initialTracks,
+      currentlyPlaying: initialTracks[0].id
+    });
+  }
+
+  componentDidUpdate = (prevProps, prevState) => {
+    if (prevState.searchQuery !== this.state.searchQuery) {
+      this.setCurrentPlaylist();
     }
   }
 
+  // ERRORS
   errorHandler = (code) => {
     let error;
     if (code === 4) {
@@ -71,6 +102,7 @@ class App extends Component {
     });
   }
 
+  // PLAYER CONTROLS
   seekHandler = (mousePosition, elementDimensions) => {
     this.setState((prevState) =>{
       const newPosition = (mousePosition.x / elementDimensions.width) * prevState.player.duration;
@@ -108,7 +140,6 @@ class App extends Component {
   }
 
   loadingHandler = e => {
-    console.log('esa')
     this.setState((prevState) =>{
       return {
         player: {
@@ -131,35 +162,61 @@ class App extends Component {
     });
   }
 
-  switchTrackHandler = (index) => {
-    this.setState(({player, tracks}) =>{
-      let newTrackIndex = index;
-      if (index === 'next') {
-        // using modulo allows to loop playlist
-        newTrackIndex = (player.currentlyPlaying + 1) % tracks.length
-      } else if (index === 'prev') {
-        // this if statement allow to loop playlist backwards
-        if(player.currentlyPlaying === 0) {
-          newTrackIndex = tracks.length - 1;
-        } else {
-          newTrackIndex = (player.currentlyPlaying - 1) % tracks.length
-        }
-      }
+  switchTrackHandler = (id) => {
+    this.setState(({player, currentPlaylist, currentlyPlaying}) =>{
+      let newTrackId = id;
 
+      if (id === 'next' || id === 'prev') {
+        // find index of current track in current playlist
+        let currentTrackIndex = currentPlaylist.findIndex(track => 
+          track.id === currentlyPlaying
+        );
+
+        let newTrackIndex;
+        if (id === 'next') {
+          if (currentTrackIndex >= currentPlaylist.length) {
+            newTrackIndex = 0;
+          } else {
+            newTrackIndex = (currentTrackIndex + 1);
+          }
+        } else {
+          if (currentTrackIndex <= 0) {
+            newTrackIndex = currentPlaylist.length - 1;
+          } else {
+            newTrackIndex = (currentTrackIndex - 1);
+          }
+        }
+        newTrackId = currentPlaylist[newTrackIndex].id;
+      }
+      
       return {
+        currentlyPlaying: newTrackId,
         player: {
           ...player,
-          currentlyPlaying: newTrackIndex,
           position: 0 // play new track from start
         }
       };
     });
   }
 
+  // SEARCH
+  searchInputHandler = e => {
+    this.setState({searchQuery: e.target.value});
+  }
+
+  setCurrentPlaylist = () => {
+    this.setState(() => {
+      const newPlaylist = this.state.tracks.filter((t, i) => {
+        return (t.id < 3);
+      });
+
+      return {currentPlaylist: newPlaylist};
+    });
+  }
+
   render() {
-    const {tracks} = this.state;
+    const {tracks, currentlyPlaying, currentPlaylist, searchQuery} = this.state;
     const {
-      currentlyPlaying,
       paused,
       position,
       duration,
@@ -167,6 +224,8 @@ class App extends Component {
       error,
       showErrorMessage
     } = this.state.player;
+
+    const track = tracks.find(t => t.id === currentlyPlaying);
 
     return (
       <main>
@@ -176,42 +235,50 @@ class App extends Component {
         >
           {error}
         </ErrorMessage>
-        <Sound
-          autoLoad
-          onError={this.errorHandler}
-          url={tracks[currentlyPlaying].source}
-          playStatus={paused ? Sound.status.PAUSED : Sound.status.PLAYING}
-          onPlaying={this.updatePositionHandler}
-          onLoading={this.loadingHandler}
-          position={position}
-          volume={volume}
-          onFinishedPlaying={()=>this.switchTrackHandler('next')}
-        />
+        {track &&
+          <Sound
+            autoLoad
+            onError={this.errorHandler}
+            url={track.source}
+            playStatus={paused ? Sound.status.PAUSED : Sound.status.PLAYING}
+            onPlaying={this.updatePositionHandler}
+            onLoading={this.loadingHandler}
+            position={position}
+            volume={volume}
+            onFinishedPlaying={()=>this.switchTrackHandler('next')}
+          />
+        }
         <MaterialCard>
           <Controls
-            track={tracks[currentlyPlaying]}
+            {...track}
             paused={paused}
             togglePause={this.pauseHandler}
             position={position}
-            duration={duration}
+            trackDuration={duration}
             volume={volume}
             onSeek={this.seekHandler}
             onVolumeChanged={this.volumeChangedHandler}
             onSwitchTrack={this.switchTrackHandler}
           />
         </MaterialCard>
-        <MaterialCard>
-          <SearchBar /> 
-          <Playlist 
-            tracks={tracks} 
-            currentlyPlaying={currentlyPlaying}
-            togglePause={this.pauseHandler}
-            onSelectTrack={this.switchTrackHandler}
-          />
-        </MaterialCard>
+        {!!currentPlaylist.length &&
+          <MaterialCard>
+            <SearchBar
+              onInput={this.searchInputHandler}
+              query={searchQuery}
+            /> 
+            <Playlist 
+              tracks={currentPlaylist} 
+              currentlyPlaying={track.id}
+              togglePause={this.pauseHandler}
+              onSelectTrack={this.switchTrackHandler}
+            />
+          </MaterialCard>
+        }
       </main>
     );
   }
 }
+
 
 export default App;

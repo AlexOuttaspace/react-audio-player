@@ -9,13 +9,13 @@ const playlist = props => {
     <ul className={classes.Playlist}>
       {props.tracks.map((t, i) => (
           <PlaylistItem 
-            key={t.source + t.name} 
+            key={t.id} 
             {...t}
-            isCurrentTrack={i === props.currentlyPlaying}
+            isCurrentTrack={t.id === props.currentlyPlaying}
             clicked={
-              i === props.currentlyPlaying
+              t.id === props.currentlyPlaying
               ? props.togglePause
-              : () => props.onSelectTrack(i)
+              : () => props.onSelectTrack(t.id)
             }
           />
       ))}
