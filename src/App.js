@@ -44,8 +44,7 @@ class App extends Component {
       this.setCurrentPlaylist();
     }
   }
-  //https://api.myjson.com/bins/ckjwe
-  //https://api.myjson.com/bins/1euidq .aTracks.slice(140, 160)
+ 
   fetchTracks = async () => {
     const response = await axios.get('https://api.myjson.com/bins/7kif2');
     const formatedTracks = formatTracks(response.data);
@@ -108,7 +107,6 @@ class App extends Component {
   }
 
   pauseHandler = () => {
-    console.log('a')
     this.setState((prevState) =>{
       return {
         player: {
