@@ -8,34 +8,7 @@ import SearchBar from './components/SeachBar/SearchBar';
 import MaterialCard from './components/UI/MaterialCard/MaterialCard';
 import ErrorMessage from './components/ErrorMessage/ErrorMessage';
 import Spinner from './components/UI/Spinner/Spinner';
-import {formatTracks} from './utility/utility';
 
-const fallBackTracks =  [
-  {
-    id: 1,
-    name: "We Were Young",
-    artist: "Odesza",
-    artwork: "https://funkadelphia.files.wordpress.com/2012/09/odesza-summers-gone-lp.jpg",
-    duration: 192,
-    source: "https://firebasestorage.googleapis.com/v0/b/react-audio-player-28dec.appspot.com/o/Alice%20Cooper%20-%20School's%20Out.mp3?alt=media&token=d1258406-10ad-41fc-b159-390e08ab3210"
-  },
-  {
-    id: 2,
-    name: "We Were  Very Young",
-    artist: "Rodesza",
-    artwork: "https://funkadelphia.files.wordpress.com/2012/09/odesza-summers-gone-lp.jpg",
-    duration: 192,
-    source: "https://freemusicarchive.org/music/download/e4507f4adfbb573336fbd498d7d0d3e4b15bd01b"
-  },
-  {
-    id: 3,
-    name: "We Were Not So Young",
-    artist: "Norodezsa",
-    artwork: "https://funkadelphia.files.wordpress.com/2012/09/odesza-summers-gone-lp.jpg",
-    duration: 192,
-    source: "https://freemusicarchive.org/music/download/e4507f4adfbb573336fbd498d7d0d3e4b15bd01b"
-  }
-]
 
 class App extends Component {
   state = {
@@ -57,34 +30,36 @@ class App extends Component {
 
   componentDidMount = async () => {
     const tracks = await this.fetchTracks();
-    this.setState({
-      loading: false,
-      tracks: tracks, 
-      currentPlaylist: tracks,
-      currentlyPlaying: tracks[0].id
-    });
+    if(!!tracks.length) {
+      this.setState({
+        loading: false,
+        tracks: tracks, 
+        currentPlaylist: tracks,
+        currentlyPlaying: tracks[0].id
+      });
+    }
   }
 
   componentDidUpdate = (prevProps, prevState) => {
-    // && (this.state.searchQuery.length >= 3 || this.state.searchQuery === '')
-    if (prevState.searchQuery !== this.state.searchQuery ) {
+    if (prevState.searchQuery !== this.state.searchQuery && 
+      (this.state.searchQuery.length >= 3 || this.state.searchQuery === '')) {
       this.setCurrentPlaylist();
     }
   }
  
   fetchTracks = async () => {
     try {
-      const response = await axios.get('https://api.myjson.com/bins/w0kim');
+      const response = await axios.get('https://api.myjson.com/bins/1ayjsu');
       return response.data;   
     } catch (err) {
       this.setState(prevState => ({
         player: {
           ...prevState.player,
-          error: err.message + '. Using fallback tracks.',
+          error: err.message + '. ',
           showErrorMessage: true
         }
       }));
-      return fallBackTracks
+      return [];
     }
   }
 

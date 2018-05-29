@@ -32,7 +32,9 @@ export const getDuration = durationStr => {
 }
 
 export const checkValidCover = (coverUrl) => {
-  if (/\.(jpg|jpeg|png|gif)$/i.test(coverUrl) ) {
+  console.log(coverUrl)
+  if (coverUrl.match(/\.(jpg|jpeg|png|gif)$/i)) {
+    console.log('asd')
     return coverUrl;
   } else {
     return defaultCover;
