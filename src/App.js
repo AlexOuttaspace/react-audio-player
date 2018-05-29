@@ -49,7 +49,7 @@ class App extends Component {
  
   fetchTracks = async () => {
     try {
-      const response = await axios.get('https://api.myjson.com/bins/1ayjsu');
+      const response = await axios.get('https://api.myjson.com/bins/w0kim');
       return response.data;   
     } catch (err) {
       this.setState(prevState => ({
