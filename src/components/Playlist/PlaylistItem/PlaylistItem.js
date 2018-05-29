@@ -4,8 +4,6 @@ import {formatDuration} from '../../../utility/utility';
 
 import classes from './PlaylistItem.css';
 
-// TODO remove redundant classes from divs
-
 const playlistItem = props => {
   const duration = formatDuration(props.duration);
   const itemClasses = [
@@ -24,7 +22,7 @@ const playlistItem = props => {
       
       <section className={classes.Info}>
         <div>
-          <div className={classes.Name}>{props.name}</div>
+          <div>{props.name}</div>
           <div className={classes.Artist}>{props.artist}</div> 
         </div>
 
