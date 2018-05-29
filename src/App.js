@@ -17,7 +17,7 @@ const fallBackTracks =  [
     artist: "Odesza",
     artwork: "https://funkadelphia.files.wordpress.com/2012/09/odesza-summers-gone-lp.jpg",
     duration: 192,
-    source: "https://freemusicarchive.org/music/download/e4507f4adfbb573336fbd498d7d0d3e4b15bd01b"
+    source: "https://firebasestorage.googleapis.com/v0/b/react-audio-player-28dec.appspot.com/o/Alice%20Cooper%20-%20School's%20Out.mp3?alt=media&token=d1258406-10ad-41fc-b159-390e08ab3210"
   },
   {
     id: 2,
@@ -66,17 +66,16 @@ class App extends Component {
   }
 
   componentDidUpdate = (prevProps, prevState) => {
-    if (prevState.searchQuery !== this.state.searchQuery &&
-        (this.state.searchQuery.length >= 3 || this.state.searchQuery === '')) {
+    // && (this.state.searchQuery.length >= 3 || this.state.searchQuery === '')
+    if (prevState.searchQuery !== this.state.searchQuery ) {
       this.setCurrentPlaylist();
     }
   }
  
   fetchTracks = async () => {
     try {
-      const response = await axios.get('https://api.myjson.com/bins/7kif2');
-      const formatedTracks = formatTracks(response.data);
-      return formatedTracks;   
+      const response = await axios.get('https://api.myjson.com/bins/w0kim');
+      return response.data;   
     } catch (err) {
       this.setState(prevState => ({
         player: {

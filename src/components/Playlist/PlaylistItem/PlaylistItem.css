@@ -8,8 +8,11 @@
 
 .AlbumCover {
   height: 100%;
-  width: 60px;
+  width: 80px;
+  position: relative;
   float: left;
+  overflow: hidden;
+  text-align: center;
 }
 
 .AlbumCover > img {
