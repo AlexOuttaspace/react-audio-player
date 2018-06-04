@@ -1,5 +1,5 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import classes from './SearchBar.css';
 
 const searchBar = props => {
@@ -16,6 +16,11 @@ const searchBar = props => {
         placeholder='Type here to search for song...'/>
     </form>
   )
+}
+
+searchBar.propTypes = {
+  onInput: PropTypes.func.isRequired,
+  query: PropTypes.string.isRequired
 }
  
 export default searchBar;

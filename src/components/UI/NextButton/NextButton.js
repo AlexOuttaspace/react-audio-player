@@ -1,5 +1,5 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import classes from './NextButton.css';
 
 const nextButton = props => {
@@ -19,6 +19,10 @@ const nextButton = props => {
       <div className={classes.triangle2}></div>
     </button>
   )
+}
+
+nextButton.propTypes = {
+  clicked: PropTypes.func
 }
  
 export default nextButton;

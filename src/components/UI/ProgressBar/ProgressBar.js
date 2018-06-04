@@ -1,4 +1,5 @@
 import React, {Fragment} from 'react';
+import PropTypes from 'prop-types';
 
 import ProgressBarInfo from './ProgressBarInfo/ProgressBarInfo';
 
@@ -46,6 +47,15 @@ const progressBar = props => {
       </div>
     </Fragment>
   )
+}
+
+progressBar.propTypes = {
+  artist: PropTypes.string,
+  name: PropTypes.string,
+  progress: PropTypes.number.isRequired,
+  duration: PropTypes.number.isRequired,
+  loaded: PropTypes.number.isRequired,
+  clicked: PropTypes.func.isRequired
 }
  
 export default progressBar;

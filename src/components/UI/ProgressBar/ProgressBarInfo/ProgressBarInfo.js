@@ -1,4 +1,5 @@
 import React, {Fragment} from 'react';
+import PropTypes from 'prop-types';
 
 import classes from './ProgressBarInfo.css';
 
@@ -34,7 +35,15 @@ const progressBarInfo = props => {
       {info}
     </Fragment>
   )
-    
+}
+
+progressBarInfo.propTypes = {
+  artist: PropTypes.string,
+  name: PropTypes.string,
+  formatedProgress: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ])
 }
  
 export default progressBarInfo;

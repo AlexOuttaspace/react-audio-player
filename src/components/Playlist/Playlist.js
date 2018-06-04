@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import PlaylistItem from './PlaylistItem/PlaylistItem';
 
@@ -34,6 +35,32 @@ const playlist = props => {
       {playListContent}
     </ul>
   )
+}
+
+playlist.propTypes = {
+  onPlay: PropTypes.func.isRequired,
+  togglePause: PropTypes.func.isRequired,
+  onSelectTrack: PropTypes.func.isRequired,
+  tracks: PropTypes.arrayOf(
+    PropTypes.shape({
+      artist: PropTypes.string,
+      artwork: PropTypes.string,
+      duration: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+      ]),
+      id: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+      ]),
+      name: PropTypes.string,
+      source: PropTypes.string
+    })
+  ).isRequired,
+  id: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]).isRequired
 }
  
 export default playlist;

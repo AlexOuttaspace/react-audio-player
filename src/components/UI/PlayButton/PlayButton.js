@@ -1,5 +1,5 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import classes from './PlayButton.css';
 
 const playButton = props => {
@@ -16,6 +16,10 @@ const playButton = props => {
       <div className={classes.triangle2}></div>
     </button>
   )
+}
+
+playButton.propTypes = {
+  clicked: PropTypes.func
 }
  
 export default playButton;
