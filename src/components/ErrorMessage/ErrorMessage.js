@@ -1,4 +1,5 @@
 import React, {Fragment} from 'react';
+import PropTypes from 'prop-types';
 
 import classes from './ErrorMessage.css';
 
@@ -18,6 +19,12 @@ const errorMessage = props => {
       </section>
     </Fragment>
   );
+}
+
+errorMessage.propTypes = {
+  show: PropTypes.bool.isRequired,
+  children: PropTypes.string,
+  onErrorDismiss: PropTypes.func.isRequired
 }
  
 export default errorMessage;

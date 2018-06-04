@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ReactCursorPosition from 'react-cursor-position';
 
 import PlayButton from '../UI/PlayButton/PlayButton';
@@ -44,5 +45,19 @@ const controls = props => {
     </section>
   );
 }
+
+controls.propTypes = {
+  artist: PropTypes.string,
+  name: PropTypes.string,
+  paused: PropTypes.bool.isRequired,
+  togglePause: PropTypes.func.isRequired,
+  loaded: PropTypes.number.isRequired,
+  position: PropTypes.number.isRequired,
+  trackDuration: PropTypes.number.isRequired,
+  volume: PropTypes.number.isRequired,
+  onSeek: PropTypes.func.isRequired,
+  onVolumeChanged: PropTypes.func.isRequired,
+  onSwitchTrack: PropTypes.func.isRequired
+};
  
 export default controls;
