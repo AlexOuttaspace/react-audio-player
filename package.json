@@ -54,6 +54,7 @@
 		"test": "node scripts/test.js --env=jsdom"
 	},
 	"jest": {
+		"setupTestFrameworkScriptFile": "<rootDir>/src/setupTests.js",
 		"collectCoverageFrom": [ "src/**/*.{js,jsx,mjs}" ],
 		"setupFiles": [ "<rootDir>/config/polyfills.js" ],
 		"testMatch": [
@@ -88,5 +89,10 @@
 	},
 	"eslintConfig": {
 		"extends": "react-app"
+	},
+	"devDependencies": {
+		"enzyme": "^3.3.0",
+		"enzyme-adapter-react-16": "^1.1.1",
+		"moxios": "^0.4.0"
 	}
 }
