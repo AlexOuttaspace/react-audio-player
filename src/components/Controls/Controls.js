@@ -51,22 +51,18 @@ const controls = (props) => {
 	);
 };
 
-controls.defaultProps = {
-	paused: true
-};
-
 controls.propTypes = {
 	artist: PropTypes.string,
 	name: PropTypes.string,
 	paused: PropTypes.bool,
-	togglePause: PropTypes.func,
+	togglePause: PropTypes.func.isRequired,
 	loaded: PropTypes.number,
 	position: PropTypes.number,
-	trackDuration: PropTypes.number,
+	trackDuration: PropTypes.number.isRequired,
 	volume: PropTypes.number,
-	onSeek: PropTypes.func,
-	onVolumeChanged: PropTypes.func,
-	onSwitchTrack: PropTypes.func
+	onSeek: PropTypes.func.isRequired,
+	onVolumeChanged: PropTypes.func.isRequired,
+	onSwitchTrack: PropTypes.func.isRequired
 };
 
 export default controls;
